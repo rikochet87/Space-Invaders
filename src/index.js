@@ -1,8 +1,10 @@
-import { Player, c, canvas } from "./player";
+import { Player, c, canvas, Invader } from "./player-invader";
 import { Projectile } from "./projectile";
 
 const player = new Player();
 const projectiles = [];
+const invader = new Invader();
+
 const keys = {
   a: {
     pressed: false,
@@ -19,13 +21,13 @@ function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
+  invader.update();
   player.update();
   projectiles.forEach((projectile, index) => {
     if (projectile.position.y + projectile.radius <= 0) {
-      setTimeout(()=>{
+      setTimeout(() => {
         projectiles.splice(index, 1);
-      }, 0)
-      
+      }, 0);
     } else {
       projectile.update();
     }
@@ -95,4 +97,4 @@ animate();
   });
 })();
 
-export { player };
+export { player, invader };

@@ -1,4 +1,4 @@
-import { c } from "./player"
+import { c } from "./player-invader"
 
 class Projectile{
     constructor({position, velocity}){
