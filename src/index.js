@@ -1,9 +1,9 @@
-import { Player, c, canvas, Invader } from "./player-invader";
+import { Player, c, canvas, Grid } from "./player-invader";
 import { Projectile } from "./projectile";
 
 const player = new Player();
 const projectiles = [];
-const invader = new Invader();
+const grids = [new Grid()];
 
 const keys = {
   a: {
@@ -21,7 +21,6 @@ function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
-  invader.update();
   player.update();
   projectiles.forEach((projectile, index) => {
     if (projectile.position.y + projectile.radius <= 0) {
@@ -31,6 +30,13 @@ function animate() {
     } else {
       projectile.update();
     }
+  });
+
+  grids.forEach((grid) => {
+    grid.update();
+    grid.invaders.forEach((invader) => {
+      invader.update({ velocity: grid.velocity });
+    });
   });
 
   if (keys.a.pressed && player.position.x >= 0) {
