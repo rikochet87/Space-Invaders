@@ -2,7 +2,7 @@ import { c } from "./player-invader";
 
 class Projectile {
   constructor({ position, velocity }) {
-    (this.position = position), (this.velocity = velocity), (this.radius = 3);
+    (this.position = position), (this.velocity = velocity), (this.radius = 4);
   }
   draw() {
     c.beginPath();
