@@ -3,7 +3,7 @@ import { Projectile } from "./projectile";
 
 const player = new Player();
 const projectiles = [];
-const grids = [new Grid()];
+const grids = [];
 
 const keys = {
   a: {
@@ -16,6 +16,9 @@ const keys = {
     pressed: false,
   },
 };
+
+let frames = 0;
+let randomInterval = Math.floor(Math.random() * 500 + 500);
 
 function animate() {
   requestAnimationFrame(animate);
@@ -51,6 +54,10 @@ function animate() {
   } else {
     player.velocity.x = 0;
   }
+  if (frames % randomInterval === 0) {
+    grids.push(new Grid());
+  }
+  frames++;
 }
 animate();
 
