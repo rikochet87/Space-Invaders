@@ -1,4 +1,5 @@
 import { player } from "./index";
+import { InvaderProjectile } from "./projectile";
 
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
@@ -92,6 +93,18 @@ class Invader {
       this.position.y += velocity.y;
     }
   }
+  shoot(invaderProjectiles){
+    invaderProjectiles.push(new InvaderProjectile({
+      position:{
+        x: this.position.x + this.width/2,
+        y:this.position.y + this.height
+      },
+      velocity:{
+        x: 0,
+        y: 5,
+      }
+    }))
+  }
 }
 
 class Grid {
@@ -137,4 +150,4 @@ class Grid {
   }
 }
 
-export { Player, Invader, c, canvas, Grid };
+export { Player, c, canvas, Grid };

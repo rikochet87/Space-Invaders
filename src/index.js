@@ -4,6 +4,7 @@ import { Projectile } from "./projectile";
 const player = new Player();
 const projectiles = [];
 const grids = [];
+const invaderProjectiles = [];
 
 const keys = {
   a: {
@@ -25,6 +26,27 @@ function animate() {
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
+  invaderProjectiles.forEach((invaderProjectile, index) => {
+    if (
+      invaderProjectile.position.y + invaderProjectile.height >=
+      canvas.height
+    ) {
+      setTimeout(() => {
+        invaderProjectiles.splice(index, 1);
+      }, 0);
+    } else {
+      invaderProjectile.update();
+    }
+    if (
+      invaderProjectile.position.y + invaderProjectile.height >=
+        player.position.y &&
+      invaderProjectile.position.x + invaderProjectile.width >=
+        player.position.x &&
+      invaderProjectile.position.x <= player.position.x + player.width
+    ) {
+      console.log("you loose");
+    }
+  });
   projectiles.forEach((projectile, index) => {
     if (projectile.position.y + projectile.radius <= 0) {
       setTimeout(() => {
@@ -35,8 +57,13 @@ function animate() {
     }
   });
 
-  grids.forEach((grid) => {
+  grids.forEach((grid, gridIndex) => {
     grid.update();
+    if (frames % 100 === 0 && grid.invaders.length > 0) {
+      grid.invaders[Math.floor(Math.random() * grid.invaders.length)].shoot(
+        invaderProjectiles
+      );
+    }
     grid.invaders.forEach((invader, i) => {
       invader.update({ velocity: grid.velocity });
 
@@ -59,6 +86,19 @@ function animate() {
             if (invaderFound && projectileFound) {
               grid.invaders.splice(i, 1);
               projectiles.splice(j, 1);
+
+              if (grid.invaders.length > 0) {
+                const firsInvader = grid.invaders[0];
+                const lastInvader = grid.invaders[grid.invaders.length - 1];
+
+                grid.width =
+                  lastInvader.position.x -
+                  firsInvader.position.x +
+                  lastInvader.width;
+                grid.position.x = firsInvader.position.x;
+              } else {
+                grids.splice(gridIndex, 1);
+              }
             }
           }, 0);
         }
@@ -77,10 +117,12 @@ function animate() {
     player.rotation = 0.15;
   } else {
     player.velocity.x = 0;
+    player.rotation = 0;
   }
   if (frames % randomInterval === 0) {
     grids.push(new Grid());
   }
+
   frames++;
 }
 animate();
@@ -134,4 +176,4 @@ animate();
   });
 })();
 
-export { player, invader };
+export { player };
