@@ -1,10 +1,11 @@
 import { Player, c, canvas, Grid } from "./player-invader";
-import { Projectile } from "./projectile";
+import { Particle, Projectile } from "./projectile";
 
 const player = new Player();
 const projectiles = [];
 const grids = [];
 const invaderProjectiles = [];
+const particles = [];
 
 const keys = {
   a: {
@@ -21,11 +22,39 @@ const keys = {
 let frames = 0;
 let randomInterval = Math.floor(Math.random() * 500 + 500);
 
+function createParticules({ object, color }) {
+  for (let i = 0; i < 15; i++) {
+    particles.push(
+      new Particle({
+        position: {
+          x: object.position.x + object.width / 2,
+          y: object.position.y + object.height / 2,
+        },
+        velocity: {
+          x: (Math.random() - 0.5) * 2,
+          y: (Math.random() - 0.5) * 2,
+        },
+        radius: Math.random() * 3,
+        color: color || "#BAA0DE",
+      })
+    );
+  }
+}
+
 function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
+  particles.forEach((particle, i) => {
+    if (particle.opacity <= 0) {
+      setTimeout(() => {
+        particles.splice(i, 1);
+      }, 0);
+    } else {
+      particle.update();
+    }
+  });
   invaderProjectiles.forEach((invaderProjectile, index) => {
     if (
       invaderProjectile.position.y + invaderProjectile.height >=
@@ -37,6 +66,7 @@ function animate() {
     } else {
       invaderProjectile.update();
     }
+    //projectile hits players
     if (
       invaderProjectile.position.y + invaderProjectile.height >=
         player.position.y &&
@@ -44,7 +74,14 @@ function animate() {
         player.position.x &&
       invaderProjectile.position.x <= player.position.x + player.width
     ) {
+      setTimeout(() => {
+        invaderProjectiles.splice(index, 1);
+      }, 0);
       console.log("you loose");
+      createParticules({
+        object: player,
+        color: "white",
+      });
     }
   });
   projectiles.forEach((projectile, index) => {
@@ -84,6 +121,9 @@ function animate() {
               (projectile2) => projectile2 == projectile
             );
             if (invaderFound && projectileFound) {
+              createParticules({
+                object: invader,
+              });
               grid.invaders.splice(i, 1);
               projectiles.splice(j, 1);
 
