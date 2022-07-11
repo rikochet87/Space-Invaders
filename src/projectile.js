@@ -19,12 +19,13 @@ class Projectile {
 }
 
 class Particle {
-  constructor({ position, velocity, radius, color }) {
+  constructor({ position, velocity, radius, color, fades }) {
     (this.position = position),
       (this.velocity = velocity),
       (this.radius = radius),
       (this.color = color),
       (this.opacity = 1);
+      (this.fades = fades);
   }
   draw() {
     c.save()
@@ -40,7 +41,9 @@ class Particle {
     this.draw();
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
+    if(this.fades){
     this.opacity -= 0.01
+    }
   }
 }
 

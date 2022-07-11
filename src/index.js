@@ -22,7 +22,24 @@ const keys = {
 let frames = 0;
 let randomInterval = Math.floor(Math.random() * 500 + 500);
 
-function createParticules({ object, color }) {
+for (let i = 0; i < 100; i++) {
+  particles.push(
+    new Particle({
+      position: {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+      },
+      velocity: {
+        x: 0,
+        y: 0.5,
+      },
+      radius: Math.random() * 3,
+      color: "white",
+    })
+  );
+}
+
+function createParticules({ object, color, fades }) {
   for (let i = 0; i < 15; i++) {
     particles.push(
       new Particle({
@@ -36,6 +53,7 @@ function createParticules({ object, color }) {
         },
         radius: Math.random() * 3,
         color: color || "#BAA0DE",
+        fades,
       })
     );
   }
@@ -47,6 +65,10 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
   player.update();
   particles.forEach((particle, i) => {
+    if (particle.position.y - particle.radius >= canvas.height) {
+      (particle.position.x = Math.random() * canvas.width),
+        (particle.position.y = -particle.radius);
+    }
     if (particle.opacity <= 0) {
       setTimeout(() => {
         particles.splice(i, 1);
@@ -81,6 +103,7 @@ function animate() {
       createParticules({
         object: player,
         color: "white",
+        fades: true,
       });
     }
   });
@@ -123,6 +146,7 @@ function animate() {
             if (invaderFound && projectileFound) {
               createParticules({
                 object: invader,
+                fades: true,
               });
               grid.invaders.splice(i, 1);
               projectiles.splice(j, 1);
