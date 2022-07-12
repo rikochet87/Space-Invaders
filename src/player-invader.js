@@ -1,11 +1,11 @@
 import { player } from "./index";
 import { InvaderProjectile } from "./projectile";
 
+
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+
 
 class Player {
   constructor() {
@@ -14,6 +14,7 @@ class Player {
       y: 0,
     };
     this.rotation = 0;
+    this.opacity = 1
     let image = new Image();
     image.src = require("../img/spaceship.png");
     image.onload = () => {
@@ -31,6 +32,7 @@ class Player {
     // c.fillStyle = "red";
     // c.fillRect(this.position.x, this.position.y, this.width, this.height);
     c.save();
+    c.globalAlpha = this.opacity
     c.translate(
       player.position.x + player.width / 2,
       player.position.y + player.height / 2

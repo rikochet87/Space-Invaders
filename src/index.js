@@ -1,6 +1,10 @@
 import { Player, c, canvas, Grid } from "./player-invader";
 import { Particle, Projectile } from "./projectile";
 
+canvas.width = 1024;
+canvas.height = 576;
+
+const scoreEl =document.querySelector("#scoreEl")
 const player = new Player();
 const projectiles = [];
 const grids = [];
@@ -21,6 +25,12 @@ const keys = {
 
 let frames = 0;
 let randomInterval = Math.floor(Math.random() * 500 + 500);
+let game = {
+  over: false,
+  active: true
+}
+
+let score = 0
 
 for (let i = 0; i < 100; i++) {
   particles.push(
@@ -60,6 +70,7 @@ function createParticules({ object, color, fades }) {
 }
 
 function animate() {
+  if(!game.active)return
   requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
@@ -96,10 +107,15 @@ function animate() {
         player.position.x &&
       invaderProjectile.position.x <= player.position.x + player.width
     ) {
+     
       setTimeout(() => {
         invaderProjectiles.splice(index, 1);
+        player.opacity = 0
+        game.over = true
       }, 0);
-      console.log("you loose");
+      setTimeout(() => {
+        game.active = false
+       }, 2000);
       createParticules({
         object: player,
         color: "white",
@@ -144,6 +160,8 @@ function animate() {
               (projectile2) => projectile2 == projectile
             );
             if (invaderFound && projectileFound) {
+              score += 100
+              scoreEl.innerHTML = score
               createParticules({
                 object: invader,
                 fades: true,
@@ -193,6 +211,8 @@ animate();
 
 (function () {
   addEventListener("keydown", ({ key }) => {
+    if(game.over)return
+
     switch (key) {
       case "a":
         // console.log("left");
