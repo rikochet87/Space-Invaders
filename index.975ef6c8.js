@@ -721,101 +721,7 @@ animate();
     });
 })();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./projectile":"1hIlV","./player-invader":"ardkY"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"1hIlV":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Projectile", ()=>Projectile);
-parcelHelpers.export(exports, "Particle", ()=>Particle);
-parcelHelpers.export(exports, "InvaderProjectile", ()=>InvaderProjectile);
-var _playerInvader = require("./player-invader");
-class Projectile {
-    constructor({ position , velocity  }){
-        this.position = position, this.velocity = velocity, this.radius = 4;
-    }
-    draw() {
-        (0, _playerInvader.c).beginPath();
-        (0, _playerInvader.c).arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
-        (0, _playerInvader.c).fillStyle = "red";
-        (0, _playerInvader.c).fill();
-        (0, _playerInvader.c).closePath;
-    }
-    update() {
-        this.draw();
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
-    }
-}
-class Particle {
-    constructor({ position , velocity , radius , color , fades  }){
-        this.position = position, this.velocity = velocity, this.radius = radius, this.color = color, this.opacity = 1;
-        this.fades = fades;
-    }
-    draw() {
-        (0, _playerInvader.c).save();
-        (0, _playerInvader.c).globalAlpha = this.opacity;
-        (0, _playerInvader.c).beginPath();
-        (0, _playerInvader.c).arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
-        (0, _playerInvader.c).fillStyle = this.color;
-        (0, _playerInvader.c).fill();
-        (0, _playerInvader.c).closePath;
-        (0, _playerInvader.c).restore();
-    }
-    update() {
-        this.draw();
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
-        if (this.fades) this.opacity -= 0.01;
-    }
-}
-class InvaderProjectile {
-    constructor({ position , velocity  }){
-        this.position = position;
-        this.velocity = velocity;
-        this.width = 4;
-        this.height = 10;
-    }
-    draw() {
-        (0, _playerInvader.c).fillStyle = "white";
-        (0, _playerInvader.c).fillRect(this.position.x, this.position.y, this.width, this.height);
-    }
-    update() {
-        this.draw();
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
-    }
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./player-invader":"ardkY"}],"ardkY":[function(require,module,exports) {
+},{"./player-invader":"ardkY","./projectile":"1hIlV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ardkY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Player", ()=>Player);
@@ -940,7 +846,101 @@ class Grid {
     }
 }
 
-},{"./index":"8lqZg","../img/spaceship.png":"ie50I","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../img/invader.png":"deIsz","./projectile":"1hIlV"}],"ie50I":[function(require,module,exports) {
+},{"./index":"8lqZg","./projectile":"1hIlV","../img/spaceship.png":"ie50I","../img/invader.png":"deIsz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1hIlV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Projectile", ()=>Projectile);
+parcelHelpers.export(exports, "Particle", ()=>Particle);
+parcelHelpers.export(exports, "InvaderProjectile", ()=>InvaderProjectile);
+var _playerInvader = require("./player-invader");
+class Projectile {
+    constructor({ position , velocity  }){
+        this.position = position, this.velocity = velocity, this.radius = 4;
+    }
+    draw() {
+        (0, _playerInvader.c).beginPath();
+        (0, _playerInvader.c).arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+        (0, _playerInvader.c).fillStyle = "red";
+        (0, _playerInvader.c).fill();
+        (0, _playerInvader.c).closePath;
+    }
+    update() {
+        this.draw();
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+    }
+}
+class Particle {
+    constructor({ position , velocity , radius , color , fades  }){
+        this.position = position, this.velocity = velocity, this.radius = radius, this.color = color, this.opacity = 1;
+        this.fades = fades;
+    }
+    draw() {
+        (0, _playerInvader.c).save();
+        (0, _playerInvader.c).globalAlpha = this.opacity;
+        (0, _playerInvader.c).beginPath();
+        (0, _playerInvader.c).arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+        (0, _playerInvader.c).fillStyle = this.color;
+        (0, _playerInvader.c).fill();
+        (0, _playerInvader.c).closePath;
+        (0, _playerInvader.c).restore();
+    }
+    update() {
+        this.draw();
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+        if (this.fades) this.opacity -= 0.01;
+    }
+}
+class InvaderProjectile {
+    constructor({ position , velocity  }){
+        this.position = position;
+        this.velocity = velocity;
+        this.width = 4;
+        this.height = 10;
+    }
+    draw() {
+        (0, _playerInvader.c).fillStyle = "white";
+        (0, _playerInvader.c).fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
+    update() {
+        this.draw();
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+    }
+}
+
+},{"./player-invader":"ardkY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"ie50I":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("bLxZJ") + "spaceship.a46b34b1.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
